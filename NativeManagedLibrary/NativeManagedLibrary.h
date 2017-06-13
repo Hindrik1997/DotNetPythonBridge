@@ -2,6 +2,8 @@
 
 #pragma once
 #include <msclr/all.h>
+#include <map>
+#include <string>
 #define EXPORT __declspec(dllexport)
 
 #ifdef __cplusplus
@@ -13,6 +15,8 @@ using namespace System;
 using namespace ManagedLibrary;
 using namespace System::Windows::Forms;
 using namespace System::Runtime::InteropServices;
+using std::map;
+using std::string;
 
 namespace NativeManagedLibrary
 {
@@ -29,6 +33,9 @@ namespace NativeManagedLibrary
 	Handle<T>::Handle(Args... args) : m_ManagedObject(args...)
 	{
 	}
+
+	static map<string, void*> m_Pointers;
+
 
 	START_EXPORT
 
@@ -54,8 +61,8 @@ namespace NativeManagedLibrary
 	EXPORT void HideButton(Handle<Button>* button);
 
 	EXPORT void SetButtonHandler(Handle<Button>* button, const char* text);
-		
-
+	EXPORT void SetTextBoxHandler(Handle<TextBox>* box, const char* text);
+	EXPORT void SetLabelHandler(Handle<Label>* label, const char* text);
 
 
 	EXPORT Handle<TextBox>* CreateNewTextBox(int width, int height, int x, int y, const char* text);
@@ -81,6 +88,29 @@ namespace NativeManagedLibrary
 
 
 
+	EXPORT Handle<Label>* CreateNewLabel(int width, int height, int x, int y, const char* text);
+	EXPORT void DestroyLabel(Handle<Label>* Label);
+
+	EXPORT void SetLabelText(Handle<Label>* Label, const char* text);
+	EXPORT const char* GetLabelText(Handle<Label>* Label);
+
+	EXPORT int  GetLabelWidth(Handle<Label>* Label);
+	EXPORT int  GetLabelHeight(Handle<Label>* Label);
+	EXPORT void SetLabelSize(Handle<Label>* Label, int width, int height);
+	EXPORT void SetLabelHeight(Handle<Label>* Label, int height);
+	EXPORT void SetLabelWidth(Handle<Label>* Label, int width);
+
+	EXPORT void SetLabelPosition(Handle<Label>* Label, int x, int y);
+	EXPORT void SetLabelX(Handle<Label>* Label, int x);
+	EXPORT void SetLabelY(Handle<Label>* Label, int y);
+	EXPORT int  GetLabelX(Handle<Label>* Label);
+	EXPORT int  GetLabelY(Handle<Label>* Label);
+
+	EXPORT void ShowLabel(Handle<Label>* Label);
+	EXPORT void HideLabel(Handle<Label>* Label);
+
+
+
 
 
 
@@ -99,7 +129,8 @@ namespace NativeManagedLibrary
 	EXPORT void				SetBytes(const char* name, unsigned char* bytes);
 	EXPORT unsigned char*	GetBytes(const char* name);
 
-
+	EXPORT void				SetPointer(const char* name, void* ptr);
+	EXPORT void*			GetPointer(const char* name);
 
 
 	END_EXPORT

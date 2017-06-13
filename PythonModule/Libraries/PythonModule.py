@@ -2,6 +2,12 @@ from ctypes import *
 
 DLL = CDLL("NativeManagedLibrary.dll")
 
+DLL.SetPointer.restype = c_void_p;
+DLL.SetPointer.argtypes = [c_char_p, c_void_p];
+
+DLL.GetPointer.restype = c_void_p;
+DLL.GetPointer.argtypes = [c_char_p];
+
 class Button(object):
     
     DLL.CreateNewButton.argtypes = [c_int, c_int, c_int, c_int, c_char_p]
@@ -18,7 +24,12 @@ class Button(object):
     def __del__(self):
         DLL.DestroyButton(self.handle)
 
-    
+    def SetReference(self, name):
+        DLL.SetPointer(name, c_void_p(self.handle))
+
+    def GetReference(self, name):
+        self.handle = DLL.GetPointer(name)
+
     def SetSize(self, width, height):
         DLL.SetButtonSize(self.handle, width, height)
     def SetWidth(self, width):
@@ -58,17 +69,112 @@ class Button(object):
 
 class TextBox(object):
 
-    def __init__():
-        self.handle = 0
+    DLL.CreateNewTextBox.argtypes = [c_int, c_int, c_int, c_int, c_char_p]
+    DLL.CreateNewTextBox.restype = c_void_p
+
+    DLL.GetTextBoxText.restype = c_char_p;
+    DLL.SetTextBoxText.argtypes = [c_void_p, c_char_p];
+
+    DLL.SetTextBoxHandler.argtypes = [c_void_p, c_char_p];
+
+    def __init__(self, width, height, x, y, text):
+        self.handle = DLL.CreateNewTextBox(width, height, x, y, text)
     def __del__(self):
-        return
+        DLL.DestroyTextBox(self.handle)
+
+    def SetReference(self, name):
+        DLL.SetPointer(name, c_void_p(self.handle))
+
+    def GetReference(self, name):
+        self.handle = DLL.GetPointer(name)
+
+    def SetSize(self, width, height):
+        DLL.SetTextBoxSize(self.handle, width, height)
+    def SetWidth(self, width):
+        DLL.SetTextBoxWidth(self.handle, width)
+    def SetHeight(self, height):
+        DLL.SetTextBoxHeight(self.handle, height)
+
+    def GetWidth(self):
+        return DLL.GetTextBoxWidth(self.handle)
+    def GetHeight(self):
+        return DLL.GetTextBoxHeight(self.handle)
+
+    def SetPosition(self, x, y):
+        DLL.SetTextBoxPosition(self,x,y)
+    def SetPositionX(self, x):
+        DLL.SetTextBoxX(self.handle, x)
+    def SetPositionY(self, y):
+        DLL.SetTextBoxY(self.handle, y)
+
+    def GetPositionX(self):
+        return DLL.GetTextBoxX(self.handle)
+    def GetPositionY(self):
+        return DLL.GetTextBoxY(self.handle)
+
+    def GetText(self):
+        return DLL.GetTextBoxText(self.handle)
+    def SetText(self, text):
+        return DLL.SetTextBoxText(self.handle, text)
+
+    def Show(self):
+        DLL.ShowTextBox(self.handle)
+    def Hide(self):
+        DLL.HideTextBox(self.handle)
 
 class Label(object):
 
-    def __init__():
-        self.handle = 0
+    DLL.CreateNewLabel.argtypes = [c_int, c_int, c_int, c_int, c_char_p]
+    DLL.CreateNewLabel.restype = c_void_p
 
+    DLL.GetLabelText.restype = c_char_p;
+    DLL.SetLabelText.argtypes = [c_void_p, c_char_p];
+
+    DLL.SetLabelHandler.argtypes = [c_void_p, c_char_p];
+
+    def __init__(self, width, height, x, y, text):
+        self.handle = DLL.CreateNewLabel(width, height, x, y, text)
     def __del__(self):
-        return
+        DLL.DestroyLabel(self.handle)
+
+    def SetReference(self, name):
+        DLL.SetPointer(name, c_void_p(self.handle))
+
+    def GetReference(self, name):
+        self.handle = DLL.GetPointer(name)
+
+    def SetSize(self, width, height):
+        DLL.SetLabelSize(self.handle, width, height)
+    def SetWidth(self, width):
+        DLL.SetLabelWidth(self.handle, width)
+    def SetHeight(self, height):
+        DLL.SetLabelHeight(self.handle, height)
+
+    def GetWidth(self):
+        return DLL.GetLabelWidth(self.handle)
+    def GetHeight(self):
+        return DLL.GetLabelHeight(self.handle)
+
+    def SetPosition(self, x, y):
+        DLL.SetLabelPosition(self,x,y)
+    def SetPositionX(self, x):
+        DLL.SetLabelX(self.handle, x)
+    def SetPositionY(self, y):
+        DLL.SetLabelY(self.handle, y)
+
+    def GetPositionX(self):
+        return DLL.GetLabelX(self.handle)
+    def GetPositionY(self):
+        return DLL.GetLabelY(self.handle)
+
+    def GetText(self):
+        return DLL.GetLabelText(self.handle)
+    def SetText(self, text):
+        return DLL.SetLabelText(self.handle, text)
+
+    def Show(self):
+        DLL.ShowLabel(self.handle)
+    def Hide(self):
+        DLL.HideLabel(self.handle)
 
 

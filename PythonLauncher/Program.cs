@@ -46,7 +46,7 @@ namespace PythonLauncher
             Assembly thisAsm = Assembly.GetEntryAssembly();
             string path = Path.GetDirectoryName(thisAsm.Location);
             var paths = m_Engine.GetSearchPaths();
-            paths.Add(path + "/Lib/");
+            paths.Add(path + "/Python Standard Lib/");
             paths.Add(path + "/Libraries/");
             m_Engine.SetSearchPaths(paths);
             string[] Files = null;

@@ -14,6 +14,12 @@ Handle<Button>* NativeManagedLibrary::CreateNewButton(int width, int height, int
 	return button;
 }
 
+void NativeManagedLibrary::DestroyButton(Handle<Button>* button)
+{
+	ExposedInterface::m_Form->Controls->Remove(button->m_ManagedObject.get());
+	delete button;
+}
+
 void NativeManagedLibrary::SetButtonText(Handle<Button>* button, const char * text)
 {
 	String^ s = gcnew String(text);
@@ -99,6 +105,12 @@ Handle<TextBox>* NativeManagedLibrary::CreateNewTextBox(int width, int height, i
 	String^ t = gcnew String(text);
 	Handle<TextBox>* box = new Handle<TextBox>(ManagedLibrary::ExposedInterface::CreateNewTextBox(width, height, x, y, t));
 	return box;
+}
+
+void NativeManagedLibrary::DestroyTextBox(Handle<TextBox>* button)
+{
+	ExposedInterface::m_Form->Controls->Remove(button->m_ManagedObject.get());
+	delete button;
 }
 
 void NativeManagedLibrary::SetTextBoxText(Handle<TextBox>* TextBox, const char * text)
@@ -189,6 +201,23 @@ void NativeManagedLibrary::SetButtonHandler(Handle<Button>* button, const char *
 	ManagedLibrary::ExposedInterface::SetEventHandler(button->m_ManagedObject.get(), t);
 }
 
+void NativeManagedLibrary::SetTextBoxHandler(Handle<TextBox>* box, const char * text)
+{
+	String^ t = gcnew String(text);
+	ManagedLibrary::ExposedInterface::SetEventHandler(box->m_ManagedObject.get(), t);
+}
+
+void NativeManagedLibrary::SetLabelHandler(Handle<Label>* label, const char * text)
+{
+	String^ t = gcnew String(text);
+	ManagedLibrary::ExposedInterface::SetEventHandler(label->m_ManagedObject.get(), t);
+}
+
+
+
+
+
+
 void NativeManagedLibrary::SetInt(const char * name, int value)
 {
 	String^ t = gcnew String(name);
@@ -240,9 +269,115 @@ unsigned char * NativeManagedLibrary::GetBytes(const char * name)
 	return nullptr;
 }
 
-void NativeManagedLibrary::DestroyButton(Handle<Button>* button)
+void NativeManagedLibrary::SetPointer(const char * name, void * ptr)
+{
+	if (ptr == nullptr)
+		throw "Error, received nullptr!";
+	
+	string cppName(name);
+	m_Pointers[cppName] = ptr;
+}
+
+void * NativeManagedLibrary::GetPointer(const char * name)
+{
+	auto it = m_Pointers.find(string(name));
+	if (it != end(m_Pointers))
+	{
+		return it->second;
+	}
+	throw "Error, no such pointer found!";
+}
+
+
+
+Handle<Label>* NativeManagedLibrary::CreateNewLabel(int width, int height, int x, int y, const char * text)
+{
+	String^ t = gcnew String(text);
+	Handle<Label>* button = new Handle<Label>(ManagedLibrary::ExposedInterface::CreateNewLabel(width, height, x, y, t));
+	return button;
+}
+
+void NativeManagedLibrary::DestroyLabel(Handle<Label>* button)
 {
 	ExposedInterface::m_Form->Controls->Remove(button->m_ManagedObject.get());
 	delete button;
 }
 
+void NativeManagedLibrary::SetLabelText(Handle<Label>* button, const char * text)
+{
+	String^ s = gcnew String(text);
+	button->m_ManagedObject.get()->Text = s;
+}
+
+const char * NativeManagedLibrary::GetLabelText(Handle<Label>* button)
+{
+	String^ t = button->m_ManagedObject.get()->Text;
+	IntPtr ptr = Marshal::StringToHGlobalAnsi(t);
+	char* string = static_cast<char*>(ptr.ToPointer());
+	char* allocated = new char[strlen(string) + 1];
+	memcpy(allocated, string, strlen(string) + 1);
+	return allocated;
+}
+
+int NativeManagedLibrary::GetLabelWidth(Handle<Label>* button)
+{
+	return button->m_ManagedObject.get()->Width;
+}
+
+int NativeManagedLibrary::GetLabelHeight(Handle<Label>* button)
+{
+	return button->m_ManagedObject.get()->Height;
+}
+
+void NativeManagedLibrary::SetLabelSize(Handle<Label>* button, int width, int height)
+{
+	button->m_ManagedObject.get()->Height = height;
+	button->m_ManagedObject.get()->Width = width;
+
+}
+
+void NativeManagedLibrary::SetLabelHeight(Handle<Label>* button, int height)
+{
+	button->m_ManagedObject.get()->Height = height;
+}
+
+void NativeManagedLibrary::SetLabelWidth(Handle<Label>* button, int width)
+{
+	button->m_ManagedObject.get()->Width = width;
+}
+
+void NativeManagedLibrary::SetLabelPosition(Handle<Label>* button, int x, int y)
+{
+	button->m_ManagedObject.get()->Location.X = x;
+	button->m_ManagedObject.get()->Location.Y = y;
+}
+
+void NativeManagedLibrary::SetLabelX(Handle<Label>* button, int x)
+{
+	button->m_ManagedObject.get()->Location.X = x;
+}
+
+void NativeManagedLibrary::SetLabelY(Handle<Label>* button, int y)
+{
+	button->m_ManagedObject.get()->Location.Y = y;
+}
+
+int NativeManagedLibrary::GetLabelX(Handle<Label>* button)
+{
+	return button->m_ManagedObject.get()->Location.X;
+}
+
+int NativeManagedLibrary::GetLabelY(Handle<Label>* button)
+{
+	return button->m_ManagedObject.get()->Location.Y;
+}
+
+void NativeManagedLibrary::ShowLabel(Handle<Label>* button)
+{
+	button->m_ManagedObject.get()->Show();
+}
+
+void NativeManagedLibrary::HideLabel(Handle<Label>* button)
+{
+	button->m_ManagedObject.get()->Hide();
+}

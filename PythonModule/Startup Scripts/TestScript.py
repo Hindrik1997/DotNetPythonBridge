@@ -4,7 +4,8 @@ DLL.SetInt("hallo", 1)
 print(DLL.GetInt("hallo"))
 
 button = Button(100,200,100,200,"Hello")
-button.SetText("hello!")
+button.SetReference("button")
+button.GetReference("button")
 print(button.GetText())
 
 button.SetHeight(100)

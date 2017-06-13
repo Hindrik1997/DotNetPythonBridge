@@ -49,11 +49,24 @@ namespace ManagedLibrary
             return b;
         }
 
-        public static void SetEventHandler(Button button, string PythonFile)
+        public static Label CreateNewLabel(int width, int height, int x, int y, string text)
         {
-            RemoveClickEvent(button);
+            Label b = new Label();
 
-            button.Click += new EventHandler(delegate (object sender, EventArgs e) {
+            b.Size = new Size(width, height);
+            b.Location = new Point(x, y);
+            b.Text = text;
+
+            m_Form.AttachControl(b);
+
+            return b;
+        }
+
+        public static void SetEventHandler(Control control, string PythonFile)
+        {
+            RemoveClickEvent(control);
+
+            control.Click += new EventHandler(delegate (object sender, EventArgs e) {
 
                 RunEventHandler(PythonFile);
 
@@ -61,7 +74,7 @@ namespace ManagedLibrary
         }
 
 
-        private static void RemoveClickEvent(Button b)
+        private static void RemoveClickEvent(Control b)
         {
             FieldInfo f1 = typeof(Control).GetField("EventClick", BindingFlags.Static | BindingFlags.NonPublic);
             object obj = f1.GetValue(b);
@@ -75,7 +88,7 @@ namespace ManagedLibrary
             Assembly thisAsm = Assembly.GetEntryAssembly();
             string path = Path.GetDirectoryName(thisAsm.Location);
             var paths = m_Engine.GetSearchPaths();
-            paths.Add(path + "/Lib/");
+            paths.Add(path + "/Python Standard Lib/");
             paths.Add(path + "/Libraries/");
             m_Engine.SetSearchPaths(paths);
         }
