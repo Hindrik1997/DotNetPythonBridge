@@ -47,12 +47,13 @@ namespace PythonLauncher
             string path = Path.GetDirectoryName(thisAsm.Location);
             var paths = m_Engine.GetSearchPaths();
             paths.Add(path + "/Lib/");
+            paths.Add(path + "/Libraries/");
             m_Engine.SetSearchPaths(paths);
             string[] Files = null;
             List<string> allowedExtensions = new List<string> { ".py" };
             try
             {
-                Files = Directory.GetFiles((path + "/Python/"), "*.*", SearchOption.AllDirectories);
+                Files = Directory.GetFiles((path + "/Startup Scripts/"), "*.*", SearchOption.AllDirectories);
             }
             catch (Exception e)
             {

@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>5681dc43-2a9d-401b-aadf-f98ce99122a6</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>PythonModule.py</StartupFile>
+    <StartupFile>Libraries\PythonModule.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,7 +21,14 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="PythonModule.py" />
+    <Compile Include="Event Handlers\Click.py" />
+    <Compile Include="Libraries\PythonModule.py" />
+    <Compile Include="Startup Scripts\TestScript.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Event Handlers\" />
+    <Folder Include="Libraries\" />
+    <Folder Include="Startup Scripts\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

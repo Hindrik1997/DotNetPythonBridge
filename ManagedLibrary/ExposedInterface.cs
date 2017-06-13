@@ -76,6 +76,7 @@ namespace ManagedLibrary
             string path = Path.GetDirectoryName(thisAsm.Location);
             var paths = m_Engine.GetSearchPaths();
             paths.Add(path + "/Lib/");
+            paths.Add(path + "/Libraries/");
             m_Engine.SetSearchPaths(paths);
         }
 
@@ -87,7 +88,7 @@ namespace ManagedLibrary
             List<string> allowedExtensions = new List<string> { ".py" };
             try
             {
-                Files = Directory.GetFiles((path + "/Python EventHandlers/"), "*.*", SearchOption.AllDirectories);
+                Files = Directory.GetFiles((path + "/Event Handlers/"), "*.*", SearchOption.AllDirectories);
             }
             catch (Exception e)
             {

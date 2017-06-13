@@ -602,6 +602,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(ProjectDir)Lib\*.*" "$(TargetDir)Lib\" /Y/D/E/S</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(ProjectDir)Lib\*.*" "$(TargetDir)Lib\" /Y/D/E/S
+xcopy "$(SolutionDir)PythonModule\Event Handlers\*.*" "$(TargetDir)Event Handlers\" /Y/D/E/S
+xcopy "$(SolutionDir)PythonModule\Libraries\*.*" "$(TargetDir)Libraries\" /Y/D/E/S
+xcopy "$(SolutionDir)PythonModule\Startup Scripts\*.*" "$(TargetDir)Startup Scripts\" /Y/D/E/S</PostBuildEvent>
   </PropertyGroup>
 </Project>

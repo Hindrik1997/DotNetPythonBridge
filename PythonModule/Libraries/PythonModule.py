@@ -2,9 +2,6 @@ from ctypes import *
 
 DLL = CDLL("NativeManagedLibrary.dll")
 
-
-
-
 class Button(object):
     
     DLL.CreateNewButton.argtypes = [c_int, c_int, c_int, c_int, c_char_p]
@@ -64,7 +61,7 @@ class TextBox(object):
     def __init__():
         self.handle = 0
     def __del__(self):
-
+        return
 
 class Label(object):
 
@@ -72,18 +69,6 @@ class Label(object):
         self.handle = 0
 
     def __del__(self):
+        return
 
 
-
-DLL.SetInt("hallo", 1)
-print(DLL.GetInt("hallo"))
-
-button = Button(100,200,100,200,"Hello")
-button.SetText("hello!")
-print(button.GetText())
-
-button.SetHeight(100)
-print(button.GetHeight())
-
-button.SetWidth(100)
-print(button.GetWidth())
