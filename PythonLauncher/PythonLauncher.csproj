@@ -34,6 +34,9 @@
   <PropertyGroup>
     <ApplicationIcon>Resources\Python.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="IronPython, Version=2.7.7.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\packages\IronPython.2.7.7\lib\Net45\IronPython.dll</HintPath>
@@ -621,6 +624,7 @@
     <PostBuildEvent>xcopy "$(ProjectDir)Lib\*.*" "$(TargetDir)Python Standard Lib\" /Y/D/E/S
 xcopy "$(SolutionDir)PythonModule\Event Handlers\*.*" "$(TargetDir)Event Handlers\" /Y/D/E/S
 xcopy "$(SolutionDir)PythonModule\Libraries\*.*" "$(TargetDir)Libraries\" /Y/D/E/S
-xcopy "$(SolutionDir)PythonModule\Startup Scripts\*.*" "$(TargetDir)Startup Scripts\" /Y/D/E/S</PostBuildEvent>
+xcopy "$(SolutionDir)PythonModule\Startup Scripts\*.*" "$(TargetDir)Startup Scripts\" /Y/D/E/S
+xcopy "$(SolutionDir)PythonModule\Clean Up Scripts\*.*" "$(TargetDir)Clean Up Scripts\" /Y/D/E/S</PostBuildEvent>
   </PropertyGroup>
 </Project>

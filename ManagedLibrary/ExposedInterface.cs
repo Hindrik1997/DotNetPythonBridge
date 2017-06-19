@@ -21,6 +21,7 @@ namespace ManagedLibrary
         {
             InitializePythonInterpreter();
             Application.Run(m_Form);
+            CleanUp();
         }
 
         public static Button CreateNewButton(int width, int height, int x, int y, string text)
@@ -143,6 +144,55 @@ namespace ManagedLibrary
             }
             Console.WriteLine("No Eventhandler found!");
         }
+
+        private static void CleanUp()
+        {
+            Assembly thisAsm = Assembly.GetEntryAssembly();
+            string path = Path.GetDirectoryName(thisAsm.Location);
+            string[] Files = null;
+            List<string> allowedExtensions = new List<string> { ".py" };
+            try
+            {
+                Files = Directory.GetFiles((path + "/Clean Up Scripts/"), "*.*", SearchOption.AllDirectories);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("An exception occured when reading the python eventhandler script directory. Does the Python directory exist?");
+                Console.WriteLine(e.Message);
+                return;
+            }
+            List<string> PythonFiles = new List<string>();
+            foreach (string s in Files)
+            {
+                string t = Path.GetExtension(s);
+                if (allowedExtensions.Contains(t))
+                {
+                    PythonFiles.Add(s);
+                }
+            }
+
+
+
+            foreach (string f in PythonFiles)
+            {
+                String t2 = Path.GetFileNameWithoutExtension(f);
+
+                string sourceCode = File.ReadAllText(f);
+                var ScriptSource = m_Engine.CreateScriptSourceFromString(sourceCode, SourceCodeKind.AutoDetect);
+                try
+                {
+                    ScriptSource.Execute();
+                }
+                catch (Exception e)
+                {
+                    ExceptionOperations eo = m_Engine.GetService<ExceptionOperations>();
+                    string error = eo.FormatException(e);
+                    Console.WriteLine(error);
+                }
+            }
+
+        }
+
     }
 
 }

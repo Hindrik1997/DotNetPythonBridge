@@ -16,19 +16,29 @@ class Button(object):
     DLL.GetButtonText.restype = c_char_p;
     DLL.SetButtonText.argtypes = [c_void_p, c_char_p];
 
-    DLL.SetButtonHandler.argtypes = [c_void_p, c_char_p];
+    DLL.SetButtonHandler.argtypes = [c_void_p, c_char_p];      
 
 
-    def __init__(self, width, height, x, y, text):
-        self.handle = DLL.CreateNewButton(width, height, x, y, text)
-    def __del__(self):
-        DLL.DestroyButton(self.handle)
+    def __init__(self, *args):
+        if len(args) == 1:       
+            self.handle = args[0]
+        else:
+            self.handle = DLL.CreateNewButton(args[0], args[1], args[2], args[3], args[4])
+
+
+    def Destroy(self):
+            DLL.DestroyButton(self.handle)
 
     def SetReference(self, name):
         DLL.SetPointer(name, c_void_p(self.handle))
 
-    def GetReference(self, name):
-        self.handle = DLL.GetPointer(name)
+    @classmethod
+    def GetReference(cls, name):
+         return cls(DLL.GetPointer(name))
+
+    @classmethod
+    def GetNew(cls, width, height, x, y, text):
+        return cls(width,height,x,y,text)
 
     def SetSize(self, width, height):
         DLL.SetButtonSize(self.handle, width, height)
@@ -72,21 +82,31 @@ class TextBox(object):
     DLL.CreateNewTextBox.argtypes = [c_int, c_int, c_int, c_int, c_char_p]
     DLL.CreateNewTextBox.restype = c_void_p
 
-    DLL.GetTextBoxText.restype = c_char_p;
-    DLL.SetTextBoxText.argtypes = [c_void_p, c_char_p];
+    DLL.GetTextBoxText.restype = c_char_p
+    DLL.SetTextBoxText.argtypes = [c_void_p, c_char_p]
 
-    DLL.SetTextBoxHandler.argtypes = [c_void_p, c_char_p];
+    DLL.SetTextBoxHandler.argtypes = [c_void_p, c_char_p]
 
-    def __init__(self, width, height, x, y, text):
-        self.handle = DLL.CreateNewTextBox(width, height, x, y, text)
-    def __del__(self):
-        DLL.DestroyTextBox(self.handle)
+    def __init__(self, *args):
+        if len(args) == 1:       
+            self.handle = args[0]
+        else:
+            self.handle = DLL.CreateNewTextBox(args[0], args[1], args[2], args[3], args[4])
+
+    def Destroy(self):
+            DLL.DestroyTextBox(self.handle)
+
 
     def SetReference(self, name):
         DLL.SetPointer(name, c_void_p(self.handle))
 
-    def GetReference(self, name):
-        self.handle = DLL.GetPointer(name)
+    @classmethod
+    def GetReference(cls, name):
+         return cls(DLL.GetPointer(name))
+
+    @classmethod
+    def GetNew(cls, width, height, x, y, text):
+        return cls(width,height,x,y,text)
 
     def SetSize(self, width, height):
         DLL.SetTextBoxSize(self.handle, width, height)
@@ -132,16 +152,25 @@ class Label(object):
 
     DLL.SetLabelHandler.argtypes = [c_void_p, c_char_p];
 
-    def __init__(self, width, height, x, y, text):
-        self.handle = DLL.CreateNewLabel(width, height, x, y, text)
-    def __del__(self):
-        DLL.DestroyLabel(self.handle)
+    def __init__(self, *args):
+        if len(args) == 1:       
+            self.handle = args[0]
+        else:
+            self.handle = DLL.CreateNewLabel(args[0], args[1], args[2], args[3], args[4])
+    
+    def Destroy(self):
+            DLL.DestroyLabel(self.handle)
 
     def SetReference(self, name):
         DLL.SetPointer(name, c_void_p(self.handle))
+    
+    @classmethod
+    def GetReference(cls, name):
+         return cls(DLL.GetPointer(name))
 
-    def GetReference(self, name):
-        self.handle = DLL.GetPointer(name)
+    @classmethod
+    def GetNew(cls, width, height, x, y, text):
+        return cls(width,height,x,y,text)
 
     def SetSize(self, width, height):
         DLL.SetLabelSize(self.handle, width, height)
@@ -176,5 +205,3 @@ class Label(object):
         DLL.ShowLabel(self.handle)
     def Hide(self):
         DLL.HideLabel(self.handle)
-
-

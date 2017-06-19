@@ -21,6 +21,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Clean Up Scripts\CleanUp.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Event Handlers\Click.py" />
     <Compile Include="Libraries\PythonModule.py" />
     <Compile Include="Startup Scripts\TestScript.py" />
@@ -28,6 +31,7 @@
   <ItemGroup>
     <Folder Include="Event Handlers\" />
     <Folder Include="Libraries\" />
+    <Folder Include="Clean Up Scripts\" />
     <Folder Include="Startup Scripts\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
