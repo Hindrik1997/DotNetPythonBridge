@@ -11,6 +11,7 @@
 #define END_EXPORT }
 #endif
 
+using namespace InjectReadyBrowser;
 using namespace System;
 using namespace ManagedLibrary;
 using namespace System::Windows::Forms;
@@ -63,6 +64,7 @@ namespace NativeManagedLibrary
 	EXPORT void SetButtonHandler(Handle<Button>* button, const char* text);
 	EXPORT void SetTextBoxHandler(Handle<TextBox>* box, const char* text);
 	EXPORT void SetLabelHandler(Handle<Label>* label, const char* text);
+	EXPORT void SetWebBrowserHandler(Handle<Label>* label, const char* text);
 
 
 	EXPORT Handle<TextBox>* CreateNewTextBox(int width, int height, int x, int y, const char* text);
@@ -112,6 +114,30 @@ namespace NativeManagedLibrary
 
 
 
+	EXPORT Handle<InjectableWebBrowser>* CreateNewWebBrowser(int width, int height, int x, int y, const char* text);
+	EXPORT void DestroyWebBrowser(Handle<InjectableWebBrowser>* WebBrowser);
+
+	EXPORT void SetWebBrowserURL(Handle<InjectableWebBrowser>* WebBrowser, const char* text);
+	EXPORT const char* GetWebBrowserURL(Handle<InjectableWebBrowser>* WebBrowser);
+
+	EXPORT void WebBrowserNavigate(Handle<InjectableWebBrowser>* webBrowser, const char* text);
+
+	EXPORT int  GetWebBrowserWidth(Handle<InjectableWebBrowser>* WebBrowser);
+	EXPORT int  GetWebBrowserHeight(Handle<InjectableWebBrowser>* WebBrowser);
+	EXPORT void SetWebBrowserSize(Handle<InjectableWebBrowser>* WebBrowser, int width, int height);
+	EXPORT void SetWebBrowserHeight(Handle<InjectableWebBrowser>* WebBrowser, int height);
+	EXPORT void SetWebBrowserWidth(Handle<InjectableWebBrowser>* WebBrowser, int width);
+
+	EXPORT void SetWebBrowserPosition(Handle<InjectableWebBrowser>* WebBrowser, int x, int y);
+	EXPORT void SetWebBrowserX(Handle<InjectableWebBrowser>* WebBrowser, int x);
+	EXPORT void SetWebBrowserY(Handle<InjectableWebBrowser>* WebBrowser, int y);
+	EXPORT int  GetWebBrowserX(Handle<InjectableWebBrowser>* WebBrowser);
+	EXPORT int  GetWebBrowserY(Handle<InjectableWebBrowser>* WebBrowser);
+
+	EXPORT void ShowWebBrowser(Handle<InjectableWebBrowser>* WebBrowser);
+	EXPORT void HideWebBrowser(Handle<InjectableWebBrowser>* WebBrowser);
+
+	EXPORT void InjectJS(Handle<InjectableWebBrowser>* WebBrowser, const char* js);
 
 
 
@@ -126,12 +152,12 @@ namespace NativeManagedLibrary
 	EXPORT void		SetDouble(const char* name, double value);
 	EXPORT double	GetDouble(const char* name);
 
-	EXPORT void				SetBytes(const char* name, unsigned char* bytes);
-	EXPORT unsigned char*	GetBytes(const char* name);
+	void				SetBytes(const char* name, unsigned char* bytes);
+	unsigned char*		GetBytes(const char* name);
 
 	EXPORT void				SetPointer(const char* name, void* ptr);
 	EXPORT void*			GetPointer(const char* name);
-
+	
 
 	END_EXPORT
 }

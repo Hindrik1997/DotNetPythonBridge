@@ -27,6 +27,7 @@ namespace PythonLauncher
 
         private static ScriptEngine m_Engine = Python.CreateEngine();
 
+        [STAThread]
         static void Main(string[] args)
         {
             Console.WriteLine("Starting Python Module...");

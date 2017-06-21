@@ -74,7 +74,6 @@ namespace ManagedLibrary
             });
         }
 
-
         private static void RemoveClickEvent(Control b)
         {
             FieldInfo f1 = typeof(Control).GetField("EventClick", BindingFlags.Static | BindingFlags.NonPublic);
@@ -84,6 +83,20 @@ namespace ManagedLibrary
             list.RemoveHandler(obj, list[obj]);
         }
 
+        public static InjectReadyBrowser.InjectableWebBrowser CreateNewWebBrowser(int width, int height, int x, int y, string url)
+        {
+            InjectReadyBrowser.InjectableWebBrowser b = new InjectReadyBrowser.InjectableWebBrowser();
+
+            b.Size = new Size(width, height);
+            b.Location = new Point(x, y);
+            b.Url = new Uri(url);
+
+            m_Form.AttachControl(b);
+
+            return b;
+        }
+
+        
         private static void InitializePythonInterpreter()
         {
             Assembly thisAsm = Assembly.GetEntryAssembly();

@@ -194,6 +194,113 @@ void NativeManagedLibrary::HideTextBox(Handle<TextBox>* TextBox)
 
 
 
+
+Handle<InjectableWebBrowser>* NativeManagedLibrary::CreateNewWebBrowser(int width, int height, int x, int y, const char * text)
+{
+	String^ t = gcnew String(text);
+	Handle<InjectableWebBrowser>* box = new Handle<InjectableWebBrowser>(ManagedLibrary::ExposedInterface::CreateNewWebBrowser(width, height, x, y, t));
+	return box;
+}
+
+void NativeManagedLibrary::DestroyWebBrowser(Handle<InjectableWebBrowser>* button)
+{
+	ExposedInterface::m_Form->Controls->Remove(button->m_ManagedObject.get());
+	delete button;
+}
+
+void NativeManagedLibrary::SetWebBrowserURL(Handle<InjectableWebBrowser>* WebBrowser, const char * text)
+{
+	String^ s = gcnew String(text);
+	WebBrowser->m_ManagedObject.get()->Url = gcnew Uri(s);
+}
+
+const char * NativeManagedLibrary::GetWebBrowserURL(Handle<InjectableWebBrowser>* WebBrowser)
+{
+	String^ t = WebBrowser->m_ManagedObject.get()->Url->ToString();
+	IntPtr ptr = Marshal::StringToHGlobalAnsi(t);
+	char* string = static_cast<char*>(ptr.ToPointer());
+	char* allocated = new char[strlen(string) + 1];
+	memcpy(allocated, string, strlen(string) + 1);
+	return allocated;
+}
+
+void NativeManagedLibrary::WebBrowserNavigate(Handle<InjectableWebBrowser>* webBrowser, const char * text)
+{
+	String^ t = gcnew String(text);
+	webBrowser->m_ManagedObject.get()->Navigate(t);
+}
+
+int NativeManagedLibrary::GetWebBrowserWidth(Handle<InjectableWebBrowser>* WebBrowser)
+{
+	return WebBrowser->m_ManagedObject.get()->Width;
+}
+
+int NativeManagedLibrary::GetWebBrowserHeight(Handle<InjectableWebBrowser>* WebBrowser)
+{
+	return WebBrowser->m_ManagedObject.get()->Height;
+}
+
+void NativeManagedLibrary::SetWebBrowserSize(Handle<InjectableWebBrowser>* WebBrowser, int width, int height)
+{
+	WebBrowser->m_ManagedObject.get()->Height = height;
+	WebBrowser->m_ManagedObject.get()->Width = width;
+
+}
+
+void NativeManagedLibrary::SetWebBrowserHeight(Handle<InjectableWebBrowser>* WebBrowser, int height)
+{
+	WebBrowser->m_ManagedObject.get()->Height = height;
+}
+
+void NativeManagedLibrary::SetWebBrowserWidth(Handle<InjectableWebBrowser>* WebBrowser, int width)
+{
+	WebBrowser->m_ManagedObject.get()->Width = width;
+}
+
+void NativeManagedLibrary::SetWebBrowserPosition(Handle<InjectableWebBrowser>* WebBrowser, int x, int y)
+{
+	WebBrowser->m_ManagedObject.get()->Location.X = x;
+	WebBrowser->m_ManagedObject.get()->Location.Y = y;
+}
+
+void NativeManagedLibrary::SetWebBrowserX(Handle<InjectableWebBrowser>* WebBrowser, int x)
+{
+	WebBrowser->m_ManagedObject.get()->Location.X = x;
+}
+
+void NativeManagedLibrary::SetWebBrowserY(Handle<InjectableWebBrowser>* WebBrowser, int y)
+{
+	WebBrowser->m_ManagedObject.get()->Location.Y = y;
+}
+
+int NativeManagedLibrary::GetWebBrowserX(Handle<InjectableWebBrowser>* WebBrowser)
+{
+	return WebBrowser->m_ManagedObject.get()->Location.X;
+}
+
+int NativeManagedLibrary::GetWebBrowserY(Handle<InjectableWebBrowser>* WebBrowser)
+{
+	return WebBrowser->m_ManagedObject.get()->Location.Y;
+}
+
+void NativeManagedLibrary::ShowWebBrowser(Handle<InjectableWebBrowser>* WebBrowser)
+{
+	WebBrowser->m_ManagedObject.get()->Show();
+}
+
+void NativeManagedLibrary::HideWebBrowser(Handle<InjectableWebBrowser>* WebBrowser)
+{
+	WebBrowser->m_ManagedObject.get()->Hide();
+}
+
+void NativeManagedLibrary::InjectJS(Handle<InjectableWebBrowser>* WebBrowser, const char* js)
+{
+	String^ t = gcnew String(js);
+	WebBrowser->m_ManagedObject.get()->ExecuteJavascript(t);
+}
+
+
+
 void NativeManagedLibrary::SetButtonHandler(Handle<Button>* button, const char * text)
 {
 
@@ -208,6 +315,12 @@ void NativeManagedLibrary::SetTextBoxHandler(Handle<TextBox>* box, const char * 
 }
 
 void NativeManagedLibrary::SetLabelHandler(Handle<Label>* label, const char * text)
+{
+	String^ t = gcnew String(text);
+	ManagedLibrary::ExposedInterface::SetEventHandler(label->m_ManagedObject.get(), t);
+}
+
+void NativeManagedLibrary::SetWebBrowserHandler(Handle<Label>* label, const char * text)
 {
 	String^ t = gcnew String(text);
 	ManagedLibrary::ExposedInterface::SetEventHandler(label->m_ManagedObject.get(), t);

@@ -15,3 +15,7 @@ button.SetWidth(100)
 print(button.GetWidth())
 
 button.SetOnClickFile("Click")
+
+browser = WebBrowser(400,400,0,0, "http://www.google.nl")
+browser.Navigate("http://www.google.nl")
+browser.SetReference("browser")

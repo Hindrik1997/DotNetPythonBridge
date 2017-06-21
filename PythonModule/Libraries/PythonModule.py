@@ -142,6 +142,9 @@ class TextBox(object):
     def Hide(self):
         DLL.HideTextBox(self.handle)
 
+    def SetOnClickFile(self, text):
+        DLL.SetTextBoxHandler(self.handle, text)
+
 class Label(object):
 
     DLL.CreateNewLabel.argtypes = [c_int, c_int, c_int, c_int, c_char_p]
@@ -205,3 +208,87 @@ class Label(object):
         DLL.ShowLabel(self.handle)
     def Hide(self):
         DLL.HideLabel(self.handle)
+
+    def SetOnClickFile(self, text):
+        DLL.SetLabelHandler(self.handle, text)
+
+
+class WebBrowser(object):
+
+    DLL.CreateNewWebBrowser.argtypes = [c_int, c_int, c_int, c_int, c_char_p]
+    DLL.CreateNewWebBrowser.restype = c_void_p
+
+    DLL.GetWebBrowserURL.restype = c_char_p
+    DLL.SetWebBrowserURL.argtypes = [c_void_p, c_char_p]
+
+    DLL.SetWebBrowserHandler.argtypes = [c_void_p, c_char_p]
+
+    DLL.WebBrowserNavigate.argtypes = [c_void_p, c_char_p]
+    DLL.WebBrowserNavigate.restype = c_void_p
+
+    DLL.InjectJS.argtypes = [c_void_p, c_char_p]
+    DLL.InjectJS.restype = c_void_p
+
+    def __init__(self, *args):
+        if len(args) == 1:       
+            self.handle = args[0]
+        else:
+            self.handle = DLL.CreateNewWebBrowser(args[0], args[1], args[2], args[3], args[4])
+
+    def Destroy(self):
+            DLL.DestroyWebBrowser(self.handle)
+
+
+    def SetReference(self, name):
+        DLL.SetPointer(name, c_void_p(self.handle))
+
+    @classmethod
+    def GetReference(cls, name):
+         return cls(DLL.GetPointer(name))
+
+    @classmethod
+    def GetNew(cls, width, height, x, y, text):
+        return cls(width,height,x,y,text)
+
+    def SetSize(self, width, height):
+        DLL.SetWebBrowserSize(self.handle, width, height)
+    def SetWidth(self, width):
+        DLL.SetWebBrowserWidth(self.handle, width)
+    def SetHeight(self, height):
+        DLL.SetWebBrowserHeight(self.handle, height)
+
+    def GetWidth(self):
+        return DLL.GetWebBrowserWidth(self.handle)
+    def GetHeight(self):
+        return DLL.GetWebBrowserHeight(self.handle)
+
+    def SetPosition(self, x, y):
+        DLL.SetWebBrowserPosition(self,x,y)
+    def SetPositionX(self, x):
+        DLL.SetWebBrowserX(self.handle, x)
+    def SetPositionY(self, y):
+        DLL.SetWebBrowserY(self.handle, y)
+
+    def GetPositionX(self):
+        return DLL.GetWebBrowserX(self.handle)
+    def GetPositionY(self):
+        return DLL.GetWebBrowserY(self.handle)
+
+    def GetUrl(self):
+        return DLL.GetWebBrowserURL(self.handle)
+    def SetURL(self, text):
+        return DLL.SetWebBrowserURL(self.handle, text)
+
+    def Show(self):
+        DLL.ShowWebBrowser(self.handle)
+    def Hide(self):
+        DLL.HideWebBrowser(self.handle)
+
+    def SetOnClickFile(self, text):
+        DLL.SetWebBrowserHandler(self.handle, text)
+
+    def Navigate(self, text):
+        DLL.WebBrowserNavigate(self.handle, text)
+
+    def InjectJS(self, js):
+        DLL.InjectJS(self.handle, js)
