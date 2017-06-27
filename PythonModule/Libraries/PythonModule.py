@@ -2,11 +2,29 @@ from ctypes import *
 
 DLL = CDLL("NativeManagedLibrary.dll")
 
-DLL.SetPointer.restype = c_void_p;
-DLL.SetPointer.argtypes = [c_char_p, c_void_p];
+DLL.SetPointer.restype = c_void_p
+DLL.SetPointer.argtypes = [c_char_p, c_void_p]
 
-DLL.GetPointer.restype = c_void_p;
-DLL.GetPointer.argtypes = [c_char_p];
+DLL.GetPointer.restype = c_void_p
+DLL.GetPointer.argtypes = [c_char_p]
+
+
+DLL.SetInt.restype = c_void_p
+DLL.SetInt.argtypes = [c_char_p, c_int32]
+DLL.GetInt.restype = c_int32
+DLL.GetInt.argtypes = [c_char_p]
+
+DLL.SetString.restype = c_void_p
+DLL.SetString.argtypes = [c_char_p, c_char_p]
+DLL.GetString.restype = c_char_p
+DLL.SetString.argtypes = [c_char_p]
+
+DLL.SetDouble.restype = c_void_p
+DLL.SetDouble.argtypes = [c_char_p, c_double]
+DLL.GetDouble.restype = c_void_p
+DLL.GetDouble.argtypes = [c_char_p]
+
+
 
 class Button(object):
     
